@@ -1,0 +1,122 @@
+/*基础变量、方法，可根据实际需要修改*/
+
+@white: #f2f2f2;
+@gray: #efeff4;
+@price:#ff0101;
+@fontFamily:  Helvetica Neue,PingFang-SC-Regular, Helvetica, microsoft yahei,
+  sans-serif;
+@background: @white;
+@baseFontColor: #4a4a4a;
+@baseFontSize: 24rem;
+@baseColor:#2e68fa;
+@iphoneXBase:34;
+.width(@size) {
+  width: @size / @baseFontSize;
+}
+
+.minWidth(@size) {
+  min-width: @size / @baseFontSize;
+}
+.maxWidth(@size) {
+  max-width: @size / @baseFontSize;
+}
+.height(@size) {
+  height: @size / @baseFontSize;
+}
+.minHeight(@size) {
+  min-height: @size / @baseFontSize;
+}
+.maxHeight(@size) {
+  max-height: @size / @baseFontSize;
+}
+.fontSize (@size) {
+  font-size: @size / @baseFontSize;
+}
+
+.lineHeight(@size) {
+  line-height: @size / @baseFontSize;
+}
+
+.margin(@top, @right, @bottom, @left) {
+  margin: @top / @baseFontSize @right / @baseFontSize @bottom / @baseFontSize
+    @left / @baseFontSize;
+}
+
+.marginTop(@top) {
+  margin-top: @top / @baseFontSize;
+}
+
+.marginRight(@right) {
+  margin-right: @right / @baseFontSize;
+}
+
+.marginBottom(@bottom) {
+  margin-bottom: @bottom / @baseFontSize;
+}
+
+.marginLeft(@left) {
+  margin-left: @left / @baseFontSize;
+}
+
+.padding(@top, @right, @bottom, @left) {
+  padding: @top / @baseFontSize @right / @baseFontSize @bottom / @baseFontSize
+    @left / @baseFontSize;
+}
+
+.paddingTop(@top) {
+  padding-top: @top / @baseFontSize;
+}
+
+.paddingRight(@right) {
+  padding-right: @right / @baseFontSize;
+}
+
+.paddingBottom(@bottom) {
+  padding-bottom: @bottom / @baseFontSize;
+}
+
+.paddingLeft(@left) {
+  padding-left: @left / @baseFontSize;
+}
+
+.top(@top) {
+  top: @top / @baseFontSize;
+}
+
+.right(@right) {
+  right: @right / @baseFontSize;
+}
+
+.bottom(@bottom) {
+  bottom: @bottom / @baseFontSize;
+}
+
+.left(@left) {
+  left: @left / @baseFontSize;
+}
+
+.border(@size, @type, @color) {
+  border: @size / @baseFontSize @type @color;
+}
+
+.borderRadius(@radius) {
+  border-radius: @radius / @baseFontSize;
+}
+
+.backgroundSize(@width, @height) {
+  background-size: @width / @baseFontSize @height / @baseFontSize;
+}
+
+.textShadow(@left, @top, @blur, @spread, @color) {
+  text-shadow: @left / @baseFontSize @top / @baseFontSize @blur / @baseFontSize
+    @spread / @baseFontSize @color;
+}
+
+.boxShadow(@left, @top, @blur, @spread, @color) {
+  box-shadow: @left / @baseFontSize @top / @baseFontSize @blur / @baseFontSize
+    @spread / @baseFontSize @color;
+}
+
+.textIndent(@size) {
+  text-indent: @size / @baseFontSize;
+}

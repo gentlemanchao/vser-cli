@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
+    <meta charset="UTF-8">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,minimum-scale=1, user-scalable=no">
+    <% for (var key in htmlWebpackPlugin.files.css) { %>
+        <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.css[key] %>">
+    <% } %>
+    <script type="text/javascript">
+        window['viewportConfig'] = {
+            designWidth: <%= htmlWebpackPlugin.options.designWidth %>,
+            designFontSize: <%= htmlWebpackPlugin.options.designFontSize %>,
+            checkRatio:<%= htmlWebpackPlugin.options.checkRatio || false %>
+        };
+    </script>
+    <% if(htmlWebpackPlugin.options.designWidth && htmlWebpackPlugin.options.designFontSize && htmlWebpackPlugin.options.viewPortCode && htmlWebpackPlugin.options.viewPortCode != ''){ %>
+        <%= '<script type="text/javascript">' + htmlWebpackPlugin.options.viewPortCode + '</script>' %> 
+    <% } %>
+</head>
+
+<body> 
+    <div id="app">
+        <!-- <%= require('server-template-vser-loader!./_components/main/server.html') %> -->
+    </div>
+
+    <% if(htmlWebpackPlugin.options.isWX){ %>
+        <script type="text/javascript" src="/static/scripts/jweixin.js"></script>
+    <% } %>
+    <% var Libs = htmlWebpackPlugin.options.chunks %>
+    <% for(var i = 0; i < Libs.length; i ++){ %>
+        <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[Libs[i]].entry %>"></script>
+    <% } %>
+</body>
+
+</html>

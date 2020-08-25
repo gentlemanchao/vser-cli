@@ -1,0 +1,6 @@
+// 服务端渲染全局组件配置
+module.exports = {
+    "Page": "components/page/index",
+    "Footer": "components/footer/index",
+    "Header": "components/header/index"
+}

@@ -1,0 +1,92 @@
+@import '~assets/styles/base.less';
+
+.c-footer {
+    border-top: 1px solid #cfcfcf;
+    background-color: #fff;
+
+    .c-footer-wraper {
+        display: flex;
+        flex-direction: row;
+        .height(98);
+
+        .footer-nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            .paddingTop(12);
+            .paddingBottom(12);
+            user-select: none;
+
+            .icon {
+                display: block;
+                position: relative;
+                .width(40);
+                .height(40);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: auto 40 / @baseFontSize;
+            }
+
+            span {
+                .marginTop(8);
+                text-align: center;
+                .fontSize(24);
+                line-height: 1;
+                color: #333;
+            }
+
+            .icon-0 {
+                background-image: url('../images/menu.0.png');
+            }
+
+            .icon-1 {
+                background-image: url('../images/menu.1.png');
+            }
+
+            .icon-2 {
+                background-image: url('../images/menu.2.png');
+            }
+
+            .icon-3 {
+                background-image: url('../images/menu.3.png');
+            }
+
+            .icon-4 {
+                background-image: url('../images/menu.4.png');
+            }
+        }
+
+        .current {
+            .icon-0 {
+                background-image: url('../images/menu.0.active.png');
+            }
+
+            .icon-1 {
+                background-image: url('../images/menu.1.active.png');
+            }
+
+            .icon-2 {
+                background-image: url('../images/menu.2.active.png');
+            }
+
+            .icon-3 {
+                background-image: url('../images/menu.3.active.png');
+            }
+
+            .icon-4 {
+                background-image: url('../images/menu.4.active.png');
+            }
+
+            span {
+                color: @baseColor;
+            }
+        }
+    }
+}
+
+// 兼容iphonex系列
+.c-footer.iphone-x {
+    .paddingBottom(@iphoneXBase);
+}

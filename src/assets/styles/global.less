@@ -1,0 +1,101 @@
+/*背景颜色*/
+
+@import 'base.less';
+
+html {
+    overflow-x: hidden;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: @background;
+}
+
+.g-fl {
+    float: left;
+}
+
+.g-fr {
+    float: right;
+}
+
+.g-relative {
+    position: relative;
+}
+
+.g-absolute {
+    position: absolute;
+}
+
+.g-fixed {
+    position: fixed;
+}
+
+.g-text-left {
+    text-align: left;
+}
+
+.g-text-center {
+    text-align: center;
+}
+
+.g-text-right {
+    text-align: right;
+}
+
+.g-layer-none {
+    display: none !important;
+}
+
+.g-layer-hidden {
+    visibility: hidden !important;
+}
+
+.g-clearfix:after {
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.g-border-none {
+    border: none !important;
+}
+
+.g-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    .fontSize(42);
+    .borderRadius(10);
+}
+
+.g-btn-green {
+    color: #fff;
+    background-color: #64b07d;
+}
+
+.g-bg-blue {
+    background-color: @baseColor;
+}
+.g-bg-zt {
+    background-color: #e7eeff;
+}
+.g-active:active {
+    opacity: .5;
+    cursor: pointer;
+}
+
+@keyframes g-ani-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
