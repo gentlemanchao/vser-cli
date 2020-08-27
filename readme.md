@@ -102,8 +102,17 @@ vser (mvvm server side render)
 
             destroyed(){}       组件已销毁，可以执行一些组件销毁后的逻辑操作。
 
+        对于使用vser-router的单页应用，还具有如下方法：
+
+            routerUpdate(param)  路由参数更新；
+
+            routerLeave(nextRoute, route) 路由离开；
+            
+            routerRecover(route, prevRoute) 路由从缓存恢复；
+
 
 五、组件通信
+
     1、子组件发  ->   父组件收
         子组件：
         this.$emit(name,value0,value1,....valueN)
@@ -112,19 +121,157 @@ vser (mvvm server side render)
         <xxx @on:name="callback"></xxx>
         <xxx v-on:name="callback"></xxx>
 
+六、模板语法
+
+    vser和vue不同，vue所有data数据和props数据都是挂载到组件根实例上；
+
+    vser的data数据挂载在this.data上，props数据挂载在this.props上，这样代码维护者会清晰的明白数据的来源;
+
+    vser采用和vue一样的模板语法，如：
+
+    条件语句：
+
+        v-if="xxx" 
+
+        v-else-if="xxx"
+
+        v-else
+
+    循环语句：
+
+        v-for="(item,index) in xxx"
+        
+        v-for="item in xxx"
+
+    v-html="xxx"
+
+    数据绑定：
+
+        {{xxx}}
+
+        v-bind:xxx="xxx"
+
+        :xxx="xxx"
+
+    事件监听：（可监听dom事件，和子组件自定义消息）
+
+        v-on:xxx="xxx"
+
+        @xxx="xxx" 
+
+    样式绑定：（不支持vue的数组模式）
+        
+        :class="{'xxx': true}"
+
+        :style="{'color':'#f00'}"
 
 
 
 
+七、服务端渲染
+    1、服务端渲染，和目前流行的ssr有所不同，是通过项目编译时，自动解析组件依赖，并生成服务端模板，通过服务端模板引擎来实现；
+    
+    2、服务端渲染结果前端渲染时没有做反解，只是为了seo和首屏优化；
 
-六、未完事项
+    3、实现：
+        通过npm命令创建服务端渲染页面，如（/test.html）：
+        npm run create module test modules serverSide 
+        页面创建成功，会在src/page.config.js文件新增一条当前页面的配置，用于生成多页应用；
+        同时自动在src/modules/目录下生成test目录（test.html目录空间）；
+        src/modules/test/目录下会自动生成一个test.ejs文件，此文件是test.html页面的模板；
+
+
+        服务端渲染需要在组件根目录新建server.html文件，（在此文件内使用服务端模板语法编写服务端渲染模板）如：
+        <Page>
+            <Header slot="header">
+                <div style="color:#fff;" slot="left">我才是左侧按钮</div>
+            </Header>
+            <div>
+                我在这里
+            </div>
+            <Second></Second>
+            <Third>
+                <p>我是老三，我要引入小四</p>
+            </Third>
+        </Page>
+        
+
+        对于全局组件，需要在项目src目录下新建.srglcp（服务端渲染全局组件配置）文件如：
+        module.exports = {
+            "Page": "components/page/index",
+            "Footer": "components/footer/index",
+            "Header": "components/header/index"
+        }
+
+        对于自定义局部子组件，需要在组件根目录config.js内增加子组件定义，如：
+        import Second from '../second/index';
+        import Third from '../third/index';
+        import Four from '../four/index';
+        export default {
+            components: {
+                Second: Second,
+                Third,
+                Four
+            }
+        }
+
+        最后在test.ejs文件引入页面根组件模板：
+        <div id="app">
+            <%= require('server-template-vser-loader!./_components/layout/server.html') %>
+        </div>
+
+        通过npm run build 指令编译结束后，输出目录 /dist/ 下会自动生成完整的服务端渲染模板 test.html 文件如：
+
+        <div id="app">
+            <div class="c-page" __comp__="Page">
+                <div class="c-header" __comp__="Header" slot="header">
+                    <div class="c-header-left">
+                        <div style="color:#fff" slot="left">我才是左侧按钮</div>
+                    </div>
+                    <div class="c-header-center">
+                        <slot name="center">我是标题</slot>
+                    </div>
+                    <div class="c-header-right">
+                        <slot name="right">我是右侧</slot>
+                    </div>
+                </div>
+                <div class="c-page-body">
+                    <div>我在这里</div>
+                    <div class="c-second-test" __comp__="Second">
+                        <h2>我是 second,我的值是：123</h2>
+                        <p>我下面是老三</p>
+                        <div class="c-third-test" __comp__="Third">
+                            <h2>我是 third</h2>
+                            <p>大家都叫我老三，谁都可以引入我，我也可以引入别人</p>
+                            <slot name="slot1"></slot>
+                            <slot name="slot2"></slot>
+                            <p v-html="data.text"></p>
+                            <slot name="slot3"></slot>
+                        </div>
+                        <p>{{text}}</p>
+                        <ul>
+                            <li v-for="item in props.list">item of list: {{item}}</li>
+                        </ul><button @click="clickButton">点击我</button>
+                    </div>
+                    <div class="c-third-test" __comp__="Third">
+                        <h2>我是 third</h2>
+                        <p>大家都叫我老三，谁都可以引入我，我也可以引入别人</p>
+                        <p>我是老三，我要引入小四</p>
+                        <slot name="slot1"></slot>
+                        <slot name="slot2"></slot>
+                        <p v-html="data.text"></p>
+                        <slot name="slot3"></slot>
+                    </div>
+                </div>
+                <slot name="footer"></slot>
+            </div>
+        </div>
+
+        
+
+未完事项
     1、js规范
         
         a.数组遍历不能用 for in
 
-七、z-index 属性规范
-
-    1、弹出层 1000-2000
-    2、loading 2000-3000
-    3、toast 3000-4000
-    4、页内元素 0-1000
+    2、目前不支持数据双向绑定
