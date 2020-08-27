@@ -51,7 +51,7 @@ module.exports = {
     entry: ModulesList.entry,
     output: {
         path: Path.join(__dirname, './' + BuildConfig.buildPath + '/' + BuildConfig.assetsPath),
-        publicPath: BuildConfig.staticDomain + BuildConfig.assetsPath + "/",
+        publicPath: BuildConfig.staticDomain + "/" + BuildConfig.assetsPath + '/',
         filename: BuildConfig.scriptsPath + '/[name].[hash].js',
         chunkFilename: BuildConfig.scriptsPath + '/[name].[hash].chunk.js'
     },
@@ -61,15 +61,34 @@ module.exports = {
     plugins: pluginsConfig,
     optimization: {
         splitChunks: {
-            chunks: 'initial', // 只对入口文件处理
+            // chunks: 'initial', // 只对入口文件处理
             cacheGroups: {
-                styles: {
-                    name: 'styles',
-                    test: /\.css$/,
-                    chunks: 'all',
-                    enforce: true
+                // styles: {
+                //     name: 'styles',
+                //     test: /\.css$/,
+                //     chunks: 'all',
+                //     enforce: true
+                // },
+                // default: false,
+                vendors: {
+                    name: "vendors",
+                    chunks: "initial",
+                    minChunks: 2
                 },
-                default: false
+                common: {
+                    name: "common",
+                    chunks: "initial",
+                    minChunks: 2
+                },
+                base: {
+                    name: "base",
+                    chunks: "initial",
+                    minChunks: 2
+                },
+                default: {
+                    minChunks: 2,
+                    reuseExistingChunk: false
+                }
             }
         },
         minimizer: [

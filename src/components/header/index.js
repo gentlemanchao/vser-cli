@@ -1,5 +1,5 @@
 import html from './index.html';
-import './styles/index.style';
+import style from './styles/index.style';
 import Vser from 'vser';
 import config from './config';
 
@@ -7,6 +7,7 @@ import config from './config';
 export default class Header extends Vser {
     constructor(options) {
         options.template = html;
+        options.style = style;
         Object.assign(options, config);
         super(options);
     }

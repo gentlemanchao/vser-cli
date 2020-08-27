@@ -16,7 +16,7 @@ module.exports = function (isProd) {
         },
         {
             test: /\.style$/,
-            use: ['style-loader', 'css-loader', 'less-loader',
+            use: ['css-loader', 'less-loader',
                 //  {
                 //     loader: 'postcss-loader',
                 //     options: {
@@ -28,7 +28,7 @@ module.exports = function (isProd) {
         },
         {
             test: /\.less$/,
-            use: ['style-loader', 'css-loader', 'less-loader']
+            use: [ 'css-loader', 'less-loader']
         },
         {
             test: /\.(scss|sass)$/,
@@ -69,7 +69,7 @@ module.exports = function (isProd) {
                 options: {
                     name: "[hash].[ext]",
                     publicPath: "/assets/images/",
-                    outputPath: "/assets/images/"
+                    outputPath: "/images/"
                 }
             }]
         }, )
@@ -77,7 +77,7 @@ module.exports = function (isProd) {
     } else {
         rules.push({
             test: /\.css$/,
-            use: ['style-loader', 'css-loader']
+            use: ['css-loader']
         }, {
             test: /\.(gif|jpg|jpeg|png|svg)\??.*$/,
             use: [{

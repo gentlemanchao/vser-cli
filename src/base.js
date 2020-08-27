@@ -1,2 +1,2 @@
-import 'vser';
-import 'vser-router';
+import './common.js';
+import 'components/install.js';

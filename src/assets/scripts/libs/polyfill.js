@@ -17,26 +17,36 @@ if (!String.prototype.endWith) {
         return reg.test(this);
     }
 }
+if (!Function.prototype.bind)(function () {
+    var ArrayPrototypeSlice = Array.prototype.slice;
+    Function.prototype.bind = function (otherThis) {
+        if (typeof this !== 'function') {
+            // closest thing possible to the ECMAScript 5
+            // internal IsCallable function
+            throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+        }
 
-// Function
-if (!Function.prototype.bind) {
-    Function.prototype.bind = function (oThis) {
-        var aArgs = Array.prototype.slice.call(arguments, 1),
-            //由于bind是原型方法,fToBind指调用bind的函数对象
+        var baseArgs = ArrayPrototypeSlice.call(arguments, 1),
+            baseArgsLength = baseArgs.length,
             fToBind = this,
-            F = function () {},
+            fNOP = function () {},
             fBound = function () {
-                //fBound若作为构造函数，则this就是fBound构造出来的对象
-                //构造函数中有return，若return的是标量，则忽略，return的是对象，则覆盖构造的实例
-                return fToBind.apply(this instanceof F ? this : oThis || this, aArgs.concat(Array.prototype.slice.call(arguments)))
+                baseArgs.length = baseArgsLength; // reset to default base arguments
+                baseArgs.push.apply(baseArgs, arguments);
+                return fToBind.apply(
+                    fNOP.prototype.isPrototypeOf(this) ? this : otherThis, baseArgs
+                );
             };
 
-        F.prototype = fToBind.prototype;
-        fBound.prototype = new F();
+        if (this.prototype) {
+            // Function.prototype doesn't have a prototype property
+            fNOP.prototype = this.prototype;
+        }
+        fBound.prototype = new fNOP();
 
         return fBound;
-    }
-}
+    };
+})();
 
 // Array
 if (typeof Array.prototype.indexOf !== 'function') {
@@ -58,7 +68,6 @@ if (typeof Array.prototype.indexOf !== 'function') {
         return -1;
     };
 }
-
 if (!Array.prototype.map) {
     Array.prototype.map = function (callback /*, thisArg*/ ) {
         var T, A, k;
@@ -132,6 +141,94 @@ if (!Array.prototype.filter) {
     };
 }
 
+if (!Array.prototype.findIndex) {
+    Array.prototype.findIndex = function (predicate) {
+        // 1. Let O be ? ToObject(this value).
+        if (this == null) {
+            throw new TypeError('"this" is null or not defined');
+        }
+
+        var o = Object(this);
+
+        // 2. Let len be ? ToLength(? Get(O, "length")).
+        var len = o.length >>> 0;
+
+        // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+        if (typeof predicate !== 'function') {
+            throw new TypeError('predicate must be a function');
+        }
+
+        // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        var thisArg = arguments[1];
+
+        // 5. Let k be 0.
+        var k = 0;
+
+        // 6. Repeat, while k < len
+        while (k < len) {
+            // a. Let Pk be ! ToString(k).
+            // b. Let kValue be ? Get(O, Pk).
+            // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+            // d. If testResult is true, return k.
+            var kValue = o[k];
+            if (predicate.call(thisArg, kValue, k, o)) {
+                return k;
+            }
+            // e. Increase k by 1.
+            k++;
+        }
+
+        // 7. Return -1.
+        return -1;
+    }
+}
+
+if (!Array.prototype.includes) {
+    Array.prototype.includes = function (searchElement, fromIndex) {
+
+        // 1. Let O be ? ToObject(this value).
+        if (this == null) {
+            throw new TypeError('"this" is null or not defined');
+        }
+
+        var o = Object(this);
+
+        // 2. Let len be ? ToLength(? Get(O, "length")).
+        var len = o.length >>> 0;
+
+        // 3. If len is 0, return false.
+        if (len === 0) {
+            return false;
+        }
+
+        // 4. Let n be ? ToInteger(fromIndex).
+        //    (If fromIndex is undefined, this step produces the value 0.)
+        var n = fromIndex | 0;
+
+        // 5. If n ≥ 0, then
+        //  a. Let k be n.
+        // 6. Else n < 0,
+        //  a. Let k be len + n.
+        //  b. If k < 0, let k be 0.
+        var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+        // 7. Repeat, while k < len
+        while (k < len) {
+            // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+            // b. If SameValueZero(searchElement, elementK) is true, return true.
+            // c. Increase k by 1.
+            // NOTE: === provides the correct "SameValueZero" comparison needed here.
+            if (o[k] === searchElement) {
+                return true;
+            }
+            k++;
+        }
+
+        // 8. Return false
+        return false;
+    }
+}
+
 // Object
 
 if (typeof Object.create != 'function') {
@@ -178,7 +275,6 @@ if (typeof Object.create != 'function') {
     })();
 }
 
-
 if (typeof Object.assign !== 'function') {
     Object.assign = function (target) {
         if (target == null || target === undefined) {
@@ -200,6 +296,50 @@ if (typeof Object.assign !== 'function') {
     };
 }
 
+if (!Object.keys) {
+    Object.keys = (function () {
+        'use strict';
+        var hasOwnProperty = Object.prototype.hasOwnProperty,
+            hasDontEnumBug = !({
+                toString: null
+            }).propertyIsEnumerable('toString'),
+            dontEnums = [
+                'toString',
+                'toLocaleString',
+                'valueOf',
+                'hasOwnProperty',
+                'isPrototypeOf',
+                'propertyIsEnumerable',
+                'constructor'
+            ],
+            dontEnumsLength = dontEnums.length;
+
+        return function (obj) {
+            if (typeof obj !== 'function' && (typeof obj !== 'object' || obj === null)) {
+                throw new TypeError('Object.keys called on non-object');
+            }
+
+            var result = [],
+                prop, i;
+
+            for (prop in obj) {
+                if (hasOwnProperty.call(obj, prop)) {
+                    result.push(prop);
+                }
+            }
+
+            if (hasDontEnumBug) {
+                for (i = 0; i < dontEnumsLength; i++) {
+                    if (hasOwnProperty.call(obj, dontEnums[i])) {
+                        result.push(dontEnums[i]);
+                    }
+                }
+            }
+            return result;
+        };
+    }());
+}
+
 // Object.values
 if (!Object.values) Object.values = function (obj) {
     if (obj !== Object(obj))
@@ -212,4 +352,15 @@ if (!Object.values) Object.values = function (obj) {
         }
     }
     return val;
+}
+
+//ie9 不支持console
+window.console = window.console || (function () {
+    var c = {};
+    c.log = c.warn = c.debug = c.info = c.error = c.time = c.dir = c.profile = c.clear = c.exception = c.trace = c.assert = function () {};
+    return c;
+})();
+
+if (!document.head) {
+    document.head = document.getElementsByTagName('head')[0]
 }

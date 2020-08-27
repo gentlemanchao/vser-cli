@@ -22,7 +22,7 @@ class Third extends Vser {
     }
     beforeUpdated() {
         super.beforeUpdated();
-        console.log('---beforeUpdated:thire')
+        console.log('---beforeUpdated:third')
 
     }
     updated() {

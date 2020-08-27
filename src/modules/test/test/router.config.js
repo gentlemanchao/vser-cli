@@ -1,7 +1,7 @@
 export default [{
         path: '/home',
         name: 'home',
-        cache: true,
+        cache: false,
         meta: {
             title: '测试'
         },
