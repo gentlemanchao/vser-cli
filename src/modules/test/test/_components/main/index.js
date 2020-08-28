@@ -85,7 +85,7 @@ class Main extends Vser {
     }
     mounted() {
         super.mounted();
-        console.log('-----', this.$router)
+        console.log('-----', this.$router,this.$router.route)
     }
     beforeUpdated() {
         super.beforeUpdated();
