@@ -31,8 +31,6 @@
     "postcss-loader": "^2.1.4",
     "server-template-vser-loader": "^1.0.2",
     "server-template-vser-plugin": "^1.0.1",
-    "vser": "^1.0.0",
-    "vser-router": "^1.0.0",
     "template-vser-loader": "^1.0.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.26.0",
@@ -40,6 +38,8 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "vser": "^1.0.1",
+    "vser-router": "^1.0.2",
     "es6-promise": "^4.2.4",
     "css-loader": "^1.0.1",
     "style-loader": "^0.21.0",
