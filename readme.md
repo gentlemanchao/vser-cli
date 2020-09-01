@@ -55,7 +55,6 @@ vser (mvvm server side render)
 
   比如let 、 const 、class、 箭头函数等语法可以使用，而 Object.assign、Array.from、Promise、Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol等新的API最好不要使用。
 
-  2、单个组件可以嵌套（参照src/components/ad组件），但是嵌套后的组件调用的时候不能再设置子组件
  
 
 四、使用说明
