@@ -1,65 +1,65 @@
-vser (mvvm server side render)
+#vser (mvvm server side render)
 
-1、可以兼容到ie7的前端mvvm框架；
-2、可以使用后端模板语法编写服务端模板，构建时自动生成服务端渲染模板文件，通过服务端模板引擎进行渲染，性能更高；
+    1. 可以兼容到ie7的前端mvvm框架；
+    2. 可以使用后端模板语法编写服务端模板，构建时自动生成服务端渲染模板文件，通过服务端模板引擎进行渲染，性能更高；
 
-一、环境搭建
+#一、环境搭建
 
-1、准备环境
+    1. 准备环境
 
-（1）下载node.js 网址：http://nodejs.cn/ 
+        （1）下载node.js 网址：http://nodejs.cn/ 
 
-（2）指向淘宝镜像 运行命令 npm install -g cnpm --registry=https://registry.npm.taobao.org
+        （2）指向淘宝镜像 运行命令 npm install -g cnpm --registry=https://registry.npm.taobao.org
 
-（3）下载项目代码 git地址：http://192.168.6.10:3000/caojianyu/front-end-comp-proj
+        （3）下载项目代码 git地址：http://192.168.6.10:3000/caojianyu/front-end-comp-proj
 
-（4）建议安装vscode开发工具 网址：https://code.visualstudio.com/
-
-
-2、打开工程，运行项目
-
- （1）安装依赖包 
-        cnpm install 或 npm install
-
- （2）开启本地服务 
-        npm run dev
-
- （4）创建组件(path可以任意指定,默认为src/components)
-        npm run create component name path
-
-        例如：npm run create component test     
-        在src/components目录下创建名为test的组件
-
-        例如：npm run create component test modules/test/test/index/_components    
-        在src/modules/test/test/index/_components目录下创建名为test的组件
-
- （5）创建页面(path可以任意指定,默认为src/modules)
-        npm run create module name path            //创建前端渲染页面
-
-        例如：npm run create module test modules/test/test/test/test/here   
-        在src/modules/test/.../test/here  目录下创建名为test的前端渲染页面
-        
-        npm run create module name path serverSide //创建后端渲染页面（前后端混合渲染页面属于此类）
-
-        例如：npm run create module test modules/test/test/test/test/here serverSide  
-        在src/modules/test/.../test/here  目录下创建名为test的后端渲染的页面
-
-二、代码发布
-
-  构建线上代码  npm run build
+        （4）建议安装vscode开发工具 网址：https://code.visualstudio.com/
 
 
-三、注意事项
+    2. 打开工程，运行项目
 
-  1、由于此项目主要针对c端，力求减小代码尺寸，避免引入过多的polyfill兼容代码，建议大家可以使用es6的语法，但是尽量不要使用ES6新的API方法。
+        （1）安装依赖包 
+            cnpm install 或 npm install
 
-  比如let 、 const 、class、 箭头函数等语法可以使用，而 Object.assign、Array.from、Promise、Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol等新的API最好不要使用。
+        （2）开启本地服务 
+            npm run dev
+
+        （4）创建组件(path可以任意指定,默认为src/components)
+            npm run create component name path
+
+            例如：npm run create component test     
+            在src/components目录下创建名为test的组件
+
+            例如：npm run create component test modules/test/test/index/_components    
+            在src/modules/test/test/index/_components目录下创建名为test的组件
+
+        （5）创建页面(path可以任意指定,默认为src/modules)
+            npm run create module name path            //创建前端渲染页面
+
+            例如：npm run create module test modules/test/test/test/test/here   
+            在src/modules/test/.../test/here  目录下创建名为test的前端渲染页面
+            
+            npm run create module name path serverSide //创建后端渲染页面（前后端混合渲染页面属于此类）
+
+            例如：npm run create module test modules/test/test/test/test/here serverSide  
+            在src/modules/test/.../test/here  目录下创建名为test的后端渲染的页面
+
+#二、代码发布
+
+    构建线上代码  npm run build
+
+
+#三、注意事项
+
+    1. 由于此项目主要针对c端，力求减小代码尺寸，避免引入过多的polyfill兼容代码，建议大家可以使用es6的语法，但是尽量不要使用ES6新的API方法。
+
+    比如let 、 const 、class、 箭头函数等语法可以使用，而 Object.assign、Array.from、Promise、Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol等新的API最好不要使用。
 
  
 
-四、使用说明
+#四、使用说明
 
-    1、项目源码src内目录结构为
+    1. 项目源码src内目录结构为
 
         assets:     js css image等静态资源目录
         components: 所有的组件目录
@@ -71,7 +71,7 @@ vser (mvvm server side render)
         page.config.js   当前项目的页面配置文件（必须）
         property.json    项目的部署配置文件（如版本号）
 
-    2、新建组件component
+    2. 新建组件component
 
         通过在src/components目录下新建对应的组件文件目录结构如：
         images/ 
@@ -110,9 +110,9 @@ vser (mvvm server side render)
             routerRecover(route, prevRoute) 路由从缓存恢复；
 
 
-五、组件通信
+#五、组件通信
 
-    1、子组件发  ->   父组件收
+    1. 子组件发  ->   父组件收
         子组件：
         this.$emit(name,value0,value1,....valueN)
         
@@ -120,7 +120,7 @@ vser (mvvm server side render)
         <xxx @on:name="callback"></xxx>
         <xxx v-on:name="callback"></xxx>
 
-六、模板语法
+#六、模板语法
 
     vser和vue不同，vue所有data数据和props数据都是挂载到组件根实例上；
 
@@ -165,14 +165,37 @@ vser (mvvm server side render)
         :style="{'color':'#f00'}"
 
 
+#七、数据更新
+
+    this.set(target[,key][,value])
+
+    * target: <object> | <*>   需要更新的参数对象{key:value,key1:value1} 或 更新的目标数据
+    * key: <string> | <number> 参数的key，或数组的索引
+    * value: <*>  参数的值
+
+    如：
+    this.set({
+        x:1,
+        y:2
+    });
+
+    this.set(this.data,'x',1)
+    this.set(this.data,'y',2)
+
+    结果：
+    this.data.x = 1
+    this.data.y = 2
 
 
-七、服务端渲染
-    1、服务端渲染，和目前流行的ssr有所不同，是通过项目编译时，自动解析组件依赖，并生成服务端模板，通过服务端模板引擎来实现；
+
+
+#八、服务端渲染
+
+    1. 服务端渲染，和目前流行的ssr有所不同，是通过项目编译时，自动解析组件依赖，并生成服务端模板，通过服务端模板引擎来实现；
     
-    2、服务端渲染结果前端渲染时没有做反解，只是为了seo和首屏优化；
+    2. 服务端渲染结果前端渲染时没有做反解，只是为了seo和首屏优化；
 
-    3、实现：
+    3. 实现：
         通过npm命令创建服务端渲染页面，如（/test.html）：
         npm run create module test modules serverSide 
         页面创建成功，会在src/page.config.js文件新增一条当前页面的配置，用于生成多页应用；
@@ -266,11 +289,11 @@ vser (mvvm server side render)
             </div>
         </div>
 
-        
+   
 
-未完事项
-    1、js规范
+#未完事项
+    1. js规范
         
         a.数组遍历不能用 for in
 
-    2、目前不支持数据双向绑定
+    2. 目前不支持数据双向绑定
