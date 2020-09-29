@@ -22,14 +22,6 @@ var getViewportCode = function () {
 var getModulesList = function (env) {
     try {
         var entry = {};
-        var entryNames = [];
-        var libs = Config.jsLibs;
-        for (var i in libs) {
-            var item = libs[i];
-            var name = item.name;
-            entry[name] = item.src;
-            entryNames.push(name);
-        }
         var template = [];
         var viewPortCode = getViewportCode();
         for (let _file in Page) {
@@ -69,7 +61,7 @@ var getModulesList = function (env) {
                 filename: env === 'develop' ? exportPath : ('../' + exportPath),
                 template: _page.serverSide ? _path + "/" + file + '.ejs' : "./src/template/template.ejs",
                 inject: false,
-                chunks: [].concat(entryNames, entryName),
+                _chunks: ['vendor', entryName]
             };
 
             if (env === 'product') {

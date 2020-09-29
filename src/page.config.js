@@ -19,6 +19,12 @@ const config = [{
     isWX: false,
     path: './src/modules/test/test',
     entryName: 'test'
+  }, {
+    name: 'index',
+    title: '',
+    serverSide: false,
+    path: './src/modules/index',
+    entryName: 'index'
   }
   /**这是为node脚本自动添加配置信息预留占位符，请勿删除和编辑此行*/
 ];

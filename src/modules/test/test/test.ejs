@@ -28,12 +28,14 @@
     <div id="app">
         <%= require('server-template-vser-loader!./_components/layout/server.html') %>
     </div>
-    <% if(htmlWebpackPlugin.options.isWX){ %>
-    <script type="text/javascript" src="/static/scripts/jweixin.js"></script>
+
+    <% var libs = htmlWebpackPlugin.options._chunks||[]; var chunks = htmlWebpackPlugin.files.chunks ||{}; %>
+    <% for(var i = 0; i< libs.length;i++){ var name = libs[i]; %>
+    <% for(var key in chunks){%>
+    <% if(key.split('-')[0] === name){%>
+    <script src="<%= chunks[key].entry %>"></script>
     <% } %>
-    <% var Libs = htmlWebpackPlugin.options.chunks %>
-    <% for(var i = 0; i < Libs.length; i ++){ %>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[Libs[i]].entry %>"></script>
+    <% } %>
     <% } %>
 </body>
 

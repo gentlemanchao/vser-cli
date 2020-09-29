@@ -10,19 +10,6 @@ const config = {
     stylesPath: "styles",
     scriptsPath: "scripts",
     defaultPageTitle: '测试项目',
-    jsLibs: [{ //js库文件
-            name: 'vendors',
-            src: 'src/vendors.js'
-        },
-        {
-            name: 'common',
-            src: 'src/common.js'
-        },
-        {
-            name: 'base',
-            src: 'src/base.js'
-        }
-    ],
     //调试服务器
     devServer: {
         port: "7156",

@@ -7,33 +7,35 @@
     </title>
     <meta charset="UTF-8">
     <meta content="telephone=no,email=no" name="format-detection">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,minimum-scale=1, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1,minimum-scale=1, user-scalable=no">
     <% for (var key in htmlWebpackPlugin.files.css) { %>
-        <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.css[key] %>">
+    <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.css[key] %>">
     <% } %>
+    <% if(htmlWebpackPlugin.options.designWidth && htmlWebpackPlugin.options.designFontSize && htmlWebpackPlugin.options.viewPortCode && htmlWebpackPlugin.options.viewPortCode != ''){ %>
     <script type="text/javascript">
         window['viewportConfig'] = {
-            designWidth: <%= htmlWebpackPlugin.options.designWidth %>,
-            designFontSize: <%= htmlWebpackPlugin.options.designFontSize %>,
+            designWidth: <%= htmlWebpackPlugin.options.designWidth || null %>,
+            designFontSize: <%= htmlWebpackPlugin.options.designFontSize || null %>,
             checkRatio:<%= htmlWebpackPlugin.options.checkRatio || false %>
         };
     </script>
-    <% if(htmlWebpackPlugin.options.designWidth && htmlWebpackPlugin.options.designFontSize && htmlWebpackPlugin.options.viewPortCode && htmlWebpackPlugin.options.viewPortCode != ''){ %>
-        <%= '<script type="text/javascript">' + htmlWebpackPlugin.options.viewPortCode + '</script>' %> 
+    <script type="text/javascript"><%= htmlWebpackPlugin.options.viewPortCode %> </script>
     <% } %>
 </head>
 
-<body> 
+<body>
     <div id="app">
         <!-- <%= require('server-template-vser-loader!./_components/main/server.html') %> -->
     </div>
 
-    <% if(htmlWebpackPlugin.options.isWX){ %>
-        <script type="text/javascript" src="/static/scripts/jweixin.js"></script>
+    <% var libs = htmlWebpackPlugin.options._chunks||[]; var chunks = htmlWebpackPlugin.files.chunks ||{}; %>
+    <% for(var i = 0; i< libs.length;i++){ var name = libs[i]; %>
+    <% for(var key in chunks){%>
+    <% if(key.split('-')[0] === name){%>
+    <script src="<%= chunks[key].entry %>"></script>
     <% } %>
-    <% var Libs = htmlWebpackPlugin.options.chunks %>
-    <% for(var i = 0; i < Libs.length; i ++){ %>
-        <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[Libs[i]].entry %>"></script>
+    <% } %>
     <% } %>
 </body>
 
